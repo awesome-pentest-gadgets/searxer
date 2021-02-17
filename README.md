@@ -1,5 +1,3 @@
-moved to: https://git.sr.ht/~boa/searxer
-
 # searxer
 Open source mobile app for searching the web.
 Written using flutter.

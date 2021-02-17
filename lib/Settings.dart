@@ -18,7 +18,7 @@ class Settings {
   }
 
   Future<String> getURL() async {
-    return (await prefs).getString("url") ?? "https://searx.site";
+    return (await prefs).getString("url") ?? "https://search.disroot.org";
   }
 
   void setEngine(String engine, String category, bool enabled) async {
