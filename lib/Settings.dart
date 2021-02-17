@@ -1,4 +1,5 @@
-import 'package:fluttertoast/generated/i18n.dart';
+import 'generated/i18n.dart';
+/* import 'package:fluttertoast/generated/i18n.dart'; */
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings {

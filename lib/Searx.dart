@@ -22,7 +22,6 @@ Future<void> refreshCurrentEngines() async {
     currentEngines.putIfAbsent(
         engineName, () => enabled ?? ENGINES[selectedCategory][engineName]);
   }
-
 }
 
 const Map<String, Map<String, bool>> ENGINES = {
@@ -187,17 +186,17 @@ const Map<String, IconData> CATEGORY_LIST = {
 };
 
 Map<String, String> CATEGORY_NAMES(context) => {
-  "general": S.of(context).category_general,
-  "science": S.of(context).category_science,
-  "it": S.of(context).category_it,
-  "videos": S.of(context).category_videos,
-  "images": S.of(context).category_images,
-  "files": S.of(context).category_files,
-  "music": S.of(context).category_music,
-  "news": S.of(context).category_news,
-  "map": S.of(context).category_map,
-  "social media": S.of(context).category_social_media,
-};
+      "general": S.of(context).category_general,
+      "science": S.of(context).category_science,
+      "it": S.of(context).category_it,
+      "videos": S.of(context).category_videos,
+      "images": S.of(context).category_images,
+      "files": S.of(context).category_files,
+      "music": S.of(context).category_music,
+      "news": S.of(context).category_news,
+      "map": S.of(context).category_map,
+      "social media": S.of(context).category_social_media,
+    };
 
 const String GOOGLE_AUTOCOMPLETE_URL =
     "https://suggestqueries.google.com/complete/search?client=toolbar&q=";
@@ -253,12 +252,12 @@ class Searx {
   ];
 
   static List<String> TIME_RANGE_NAMES(context) => [
-    S.of(context).time_any,
-    S.of(context).time_day,
-    S.of(context).time_week,
-    S.of(context).time_month,
-    S.of(context).time_year,
-  ];
+        S.of(context).time_any,
+        S.of(context).time_day,
+        S.of(context).time_week,
+        S.of(context).time_month,
+        S.of(context).time_year,
+      ];
 
   Future<List<SearchResult>> getSearchResults(String query, int page) async {
     Map<String, dynamic> body = {
@@ -276,7 +275,8 @@ class Searx {
     };
     List<SearchResult> results = new List();
     var jsonResponse;
-    http.Response response = await http.post(searchUrl, headers: headers, body: body);
+    http.Response response = await http.post(searchUrl,
+        headers: {"Accept-Language": "*"}, body: body);
     try {
       jsonResponse = json.decode(response.body);
     } catch (error) {
