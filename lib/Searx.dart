@@ -203,7 +203,7 @@ const String GOOGLE_AUTOCOMPLETE_URL =
 
 int selectedTimeRange = 0;
 String selectedCategory = CATEGORY_LIST.keys.first;
-String searxURL = "https://search.disroot.org";
+String searxURL = "https://searx.bbaovanc.com/";
 List<String> suggestions = new List();
 
 Map<String, bool> get engines => currentEngines;
@@ -269,9 +269,6 @@ class Searx {
       //"disabled_engines": disabledFormattedEngines,
       "engines": formattedEngines,
       "time_range": TIME_RANGES[selectedTimeRange],
-    };
-    Map<String, String> headers = {
-      "accept-language": "*",
     };
     List<SearchResult> results = new List();
     var jsonResponse;
