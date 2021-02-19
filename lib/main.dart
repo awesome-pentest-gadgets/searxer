@@ -41,7 +41,12 @@ class MyApp extends StatelessWidget {
       localeResolutionCallback: S.delegate.resolution(fallback: new Locale("en", "")),
       title: 'searxer',
       theme: ThemeData(
+        brightness: Brightness.light,
         primarySwatch: Colors.blue,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.lightBlue,
       ),
       home: MyHomePage(),
     );
@@ -55,7 +60,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
 
   final TextEditingController _controller = new TextEditingController();
@@ -75,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
 //adsetup
     super.initState();
+      WidgetsBinding.instance.addObserver(this);
     refreshCurrentEngines();
     initPrefs();
   }
@@ -114,6 +120,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _searchItemBuilder(BuildContext context, int index) {
+    final Brightness brightnessValue = MediaQuery.of(context).platformBrightness;
+    bool isDark = brightnessValue == Brightness.dark;
     if (index != results.length)
       return new Column(children: <Widget>[
         ListTile(
@@ -131,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         new Text(results[index].seed.toString(),
                             style: TextStyle(color: Colors.green)),
                         new Text(results[index].leech.toString(),
-                            style: TextStyle(color: Colors.blue)),
+                            style: TextStyle(color: isDark? Colors.lightBlue : Colors.blue)),
                       ]),
                   //alignment: Alignment(0, 0),
                   width: 40,
@@ -156,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.white,
                       size: 18,
                     ),
-                    color: Colors.blue,
+                    color: isDark? Colors.lightBlue : Colors.blue,
                     shape: CircleBorder(),
                     height: 42,
                   ),
@@ -172,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
               new Text(
                 results[index].purl ?? "",
                 style: TextStyle(
-                  color: Colors.blue,
+                  color: isDark? Colors.lightBlue : Colors.blue,
                 ),
                 textAlign: TextAlign.start,
               ),
@@ -184,7 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       results[index].engine,
                       textAlign: TextAlign.right,
                       style: TextStyle(
-                          color: Colors.blue, fontWeight: FontWeight.bold),
+                          color: isDark? Colors.lightBlue : Colors.blue, fontWeight: FontWeight.bold),
                     )
                   : new Container(),
             ],
@@ -217,6 +225,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final Brightness brightnessValue = MediaQuery.of(context).platformBrightness;
+    bool isDark = brightnessValue == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         title: new Text(S.of(context).title_app),
@@ -326,7 +336,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Colors.black),
+                            borderSide: BorderSide(color: isDark? Colors.white : Colors.black),
                             gapPadding: 0),
                         contentPadding: EdgeInsets.all(8),
                         suffixIcon: IconButton(
@@ -342,7 +352,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   new IconButton(
-                    color: Colors.blueAccent,
+                    color: isDark? Colors.lightBlueAccent : Colors.blueAccent,
                     icon: new Icon(Icons.search),
                     onPressed: () => search(searchTerm),
                   )
@@ -369,7 +379,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    final Brightness brightness =
+        WidgetsBinding.instance.window.platformBrightness;
+    //inform listeners and rebuild widget tree
   }
 
   void search(String text, {int page = 0}) async {
