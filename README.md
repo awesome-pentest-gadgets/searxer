@@ -12,3 +12,7 @@ Features:
 - choose a time interval to find more recent results
 
 Credits to Adam Tauber ([asciimoo](https://github.com/asciimoo/)) for creating an [awesome metasearch engine](https://github.com/asciimoo/searx).
+
+# Changes from original
+- see releases
+- I won't be updating this anymore, see my new app here: https://github.com/Zackptg5/Searx-Android
